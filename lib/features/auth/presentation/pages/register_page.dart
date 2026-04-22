@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uts_gaming_console/core/constants/app_colors.dart';
 import 'package:uts_gaming_console/core/routes/app_router.dart';
 import 'package:uts_gaming_console/core/shared/widgets/auth_header.dart';
 import 'package:uts_gaming_console/core/shared/widgets/custom_button.dart';
@@ -49,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(auth.errorMessage ?? 'Pendaftaran gagal'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.accent,
         ),
       );
     }
@@ -156,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: const Text(
                           'Masuk',
                           style: TextStyle(
-                            color: Color(0xFF1565C0),
+                            color: AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
