@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uts_gaming_console/core/constants/app_colors.dart';
 import 'package:uts_gaming_console/core/routes/app_router.dart';
 import 'package:uts_gaming_console/core/shared/widgets/auth_header.dart';
 import 'package:uts_gaming_console/core/shared/widgets/custom_button.dart';
@@ -95,15 +96,19 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
+                  color: AppColors.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300),
+                  border: Border.all(
+                    color: AppColors.primary.withOpacity(0.3),
+                    width: 1,
+                  ),
                 ),
                 child: Text(
                   user?.email ?? '-',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
                   ),
                 ),
               ),
@@ -113,15 +118,21 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 16,
                     height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Text(
                     'Menunggu konfirmasi...',
-                    style: TextStyle(color: Colors.grey.shade600),
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 14,
+                    ),
                   ),
                 ],
               ),
