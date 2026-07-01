@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uts_gaming_console/core/constants/app_colors.dart';
 import 'package:uts_gaming_console/core/theme/neo_theme.dart';
+import 'package:uts_gaming_console/core/shared/widgets/app_logo.dart';
 
 class AuthHeader extends StatelessWidget {
   final IconData icon;
@@ -20,20 +21,7 @@ class AuthHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: AppColors.neoYellow,
-            shape: BoxShape.circle,
-            border: NeoTheme.border,
-            boxShadow: const [NeoTheme.shadowSmall],
-          ),
-          child: Icon(
-            icon,
-            size: 48,
-            color: Colors.black,
-          ),
-        ),
+        const AppLogo(size: 84),
         const SizedBox(height: 24),
         Text(
           title,

@@ -8,6 +8,7 @@ import 'package:uts_gaming_console/features/cart/presentation/pages/cart_page.da
 import 'package:uts_gaming_console/features/cart/presentation/providers/cart_provider.dart';
 import 'package:uts_gaming_console/features/dashboard/presentation/providers/product_provider.dart';
 import 'package:uts_gaming_console/core/theme/neo_theme.dart';
+import 'package:uts_gaming_console/core/shared/widgets/app_logo.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -37,16 +38,24 @@ class _DashboardPageState extends State<DashboardPage> {
         backgroundColor: AppColors.neoYellow,
         foregroundColor: Colors.black,
         elevation: 0,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        title: Row(
           children: [
-            const Text('Katalog Produk', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.black)),
-            Text(
-              'Halo, ${auth.firebaseUser?.displayName ?? 'User'}!',
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
-                color: Colors.black54,
+            const AppLogo(size: 38),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Katalog Produk', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.black)),
+                  Text(
+                    'Halo, ${auth.firebaseUser?.displayName ?? 'User'}!',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
