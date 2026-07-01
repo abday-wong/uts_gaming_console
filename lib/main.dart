@@ -157,6 +157,12 @@ class _MyAppState extends State<MyApp> {
 
         if (status == 'success') {
           context.read<CartProvider>().clearCart();
+          // Reset stack ke dashboard terlebih dahulu
+          MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+            AppRouter.dashboard,
+            (route) => false,
+          );
+          // Tumpuk halaman sukses di atas dashboard
           MyApp.navigatorKey.currentState?.push(
             MaterialPageRoute(
               builder: (context) => PaymentSuccessPage(
@@ -164,28 +170,36 @@ class _MyAppState extends State<MyApp> {
                 amount: amount,
                 recipientEmail: recipient,
                 onSuccess: () {
-                  MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(AppRouter.dashboard, (route) => false);
+                  MyApp.navigatorKey.currentState?.pop();
                 },
               ),
             ),
           );
         } else {
           final error = uri.queryParameters['error'] ?? 'Cancelled';
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (ctx) => AlertDialog(
-              icon: const Icon(Icons.error, color: Colors.red, size: 60),
-              title: const Text('Pembayaran Gagal'),
-              content: Text('Error: $error\nID Transaksi: $trxId'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
+          // Reset stack ke dashboard terlebih dahulu
+          MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+            AppRouter.dashboard,
+            (route) => false,
           );
+          final currentContext = MyApp.navigatorKey.currentContext;
+          if (currentContext != null) {
+            showDialog(
+              context: currentContext,
+              barrierDismissible: false,
+              builder: (ctx) => AlertDialog(
+                icon: const Icon(Icons.error, color: Colors.red, size: 60),
+                title: const Text('Pembayaran Gagal'),
+                content: Text('Error: $error\nID Transaksi: $trxId'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          }
         }
       }
     }
