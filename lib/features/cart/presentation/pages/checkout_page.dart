@@ -65,39 +65,32 @@ class _CheckoutPageState extends State<CheckoutPage> {
       debugPrint('Launching E-Money Deep Link: $deepLinkUri');
 
       try {
-        if (await canLaunchUrl(deepLinkUri)) {
-          await launchUrl(deepLinkUri, mode: LaunchMode.externalApplication);
-          setState(() {
-            _isProcessing = false;
-          });
-        } else {
-          setState(() {
-            _isProcessing = false;
-          });
-          if (mounted) {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('E-Money Wallet Tidak Ditemukan'),
-                content: const Text(
-                  'Aplikasi E-Money Wallet belum terpasang di perangkat Anda. '
-                  'Silakan pasang aplikasi dompet digital untuk melanjutkan pembayaran.',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Tutup'),
-                  ),
-                ],
-              ),
-            );
-          }
-        }
+        await launchUrl(deepLinkUri, mode: LaunchMode.externalApplication);
+        setState(() {
+          _isProcessing = false;
+        });
       } catch (e) {
         setState(() {
           _isProcessing = false;
         });
-        debugPrint('Error launching deep link: $e');
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('E-Money Wallet Tidak Ditemukan'),
+              content: const Text(
+                'Aplikasi E-Money Wallet belum terpasang di perangkat Anda. '
+                'Silakan pasang aplikasi dompet digital untuk melanjutkan pembayaran.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Tutup'),
+                ),
+              ],
+            ),
+          );
+        }
       }
     } else {
       setState(() {
