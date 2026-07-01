@@ -374,7 +374,6 @@ class CartPage extends StatelessWidget {
                           );
                         },
                         style: NeoTheme.neoButtonStyle(backgroundColor: AppColors.neoGreen, foregroundColor: Colors.black),
-                        ),
                         child: const Text(
                           'Lanjut ke Checkout',
                           style: TextStyle(
