@@ -222,12 +222,17 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                                           color: Colors.black54,
                                         ),
                                       ),
-                                      Text(
-                                        widget.recipientEmail!,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.black,
+                                      const SizedBox(width: 12),
+                                      Flexible(
+                                        child: Text(
+                                          widget.recipientEmail!,
+                                          textAlign: TextAlign.end,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.black,
+                                          ),
                                         ),
                                       ),
                                     ],
