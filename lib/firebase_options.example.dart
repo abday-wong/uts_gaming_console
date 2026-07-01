@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBTQA5ytn8_EvYxx-lg_5K_Wh8WZ8aQfFk',
-    appId: '1:467158476842:web:8be1cda2da9ec208f07b53',
-    messagingSenderId: '467158476842',
-    projectId: 'gaming-7e0ec',
-    authDomain: 'gaming-7e0ec.firebaseapp.com',
-    storageBucket: 'gaming-7e0ec.firebasestorage.app',
-    measurementId: 'G-LT0Y817KYZ',
+    apiKey: 'YOUR_API_KEY_HERE',
+    appId: 'YOUR_APP_ID_HERE',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID_HERE',
+    projectId: 'YOUR_PROJECT_ID_HERE',
+    authDomain: 'YOUR_AUTH_DOMAIN_HERE',
+    storageBucket: 'YOUR_STORAGE_BUCKET_HERE',
+    measurementId: 'YOUR_MEASUREMENT_ID_HERE',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCXMauIKOTHs71FS2FHKK90Z94b9VxR2b0',
-    appId: '1:467158476842:android:83ed65883304e5b9f07b53',
-    messagingSenderId: '467158476842',
-    projectId: 'gaming-7e0ec',
-    storageBucket: 'gaming-7e0ec.firebasestorage.app',
+    apiKey: 'YOUR_API_KEY_HERE',
+    appId: 'YOUR_APP_ID_HERE',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID_HERE',
+    projectId: 'YOUR_PROJECT_ID_HERE',
+    storageBucket: 'YOUR_STORAGE_BUCKET_HERE',
   );
 }
