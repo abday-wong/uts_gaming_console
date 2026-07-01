@@ -15,6 +15,7 @@ import 'package:uts_gaming_console/features/cart/presentation/providers/cart_pro
 import 'package:uts_gaming_console/features/cart/presentation/providers/checkout_provider.dart';
 import 'package:uts_gaming_console/features/dashboard/presentation/providers/product_provider.dart';
 import 'package:uts_gaming_console/features/dashboard/presentation/pages/transaction_history_page.dart';
+import 'package:uts_gaming_console/features/cart/presentation/pages/payment_success_page.dart';
 import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -156,25 +157,16 @@ class _MyAppState extends State<MyApp> {
 
         if (status == 'success') {
           context.read<CartProvider>().clearCart();
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (ctx) => AlertDialog(
-              icon: const Icon(Icons.check_circle, color: Colors.green, size: 60),
-              title: const Text('Pembayaran Berhasil'),
-              content: Text(
-                'Transaksi Anda dengan ID $trxId sebesar Rp $amount berhasil dibayar via E-Money.',
-                textAlign: TextAlign.center,
+          MyApp.navigatorKey.currentState?.push(
+            MaterialPageRoute(
+              builder: (context) => PaymentSuccessPage(
+                trxId: trxId,
+                amount: amount,
+                recipientEmail: recipient,
+                onSuccess: () {
+                  MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(AppRouter.dashboard, (route) => false);
+                },
               ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(AppRouter.dashboard, (route) => false);
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
             ),
           );
         } else {

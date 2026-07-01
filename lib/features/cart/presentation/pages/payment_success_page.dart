@@ -4,8 +4,17 @@ import 'package:uts_gaming_console/core/theme/neo_theme.dart';
 
 class PaymentSuccessPage extends StatefulWidget {
   final VoidCallback onSuccess;
+  final String? trxId;
+  final String? amount;
+  final String? recipientEmail;
 
-  const PaymentSuccessPage({Key? key, required this.onSuccess}) : super(key: key);
+  const PaymentSuccessPage({
+    Key? key,
+    required this.onSuccess,
+    this.trxId,
+    this.amount,
+    this.recipientEmail,
+  }) : super(key: key);
 
   @override
   State<PaymentSuccessPage> createState() => _PaymentSuccessPageState();
@@ -126,7 +135,7 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                                     ),
                                     const SizedBox(height: 6),
                                     Text(
-                                      '#${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
+                                      widget.trxId ?? '#${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w900,
@@ -194,6 +203,61 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                                   ),
                                 ],
                               ),
+                              if (widget.amount != null || widget.recipientEmail != null) ...[
+                                const SizedBox(height: 16),
+                                Container(
+                                  height: 2.5,
+                                  color: Colors.black,
+                                ),
+                                const SizedBox(height: 16),
+                                if (widget.recipientEmail != null) ...[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Penerima/Merchant',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      Text(
+                                        widget.recipientEmail!,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (widget.amount != null) const SizedBox(height: 12),
+                                ],
+                                if (widget.amount != null) ...[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Total Pembayaran',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Rp ${widget.amount}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ],
                             ],
                           ),
                         ),
