@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uts_gaming_console/core/constants/app_colors.dart';
 import 'package:uts_gaming_console/core/services/secure_storage.dart';
+import 'package:uts_gaming_console/core/theme/neo_theme.dart';
 
 class TransactionHistoryPage extends StatefulWidget {
   const TransactionHistoryPage({super.key});
@@ -32,8 +33,8 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Riwayat Transaksi', style: TextStyle(fontWeight: FontWeight.w600)),
-        backgroundColor: AppColors.primary,
+        title: const Text('Riwayat Transaksi', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black)),
+        backgroundColor: AppColors.neoYellow,
         elevation: 0,
       ),
       body: _isLoading
@@ -43,18 +44,27 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.receipt_long_outlined,
-                        size: 80,
-                        color: AppColors.textSecondary.withOpacity(0.5),
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: AppColors.neoBlue,
+                          shape: BoxShape.circle,
+                          border: NeoTheme.border,
+                          boxShadow: const [NeoTheme.shadow],
+                        ),
+                        child: const Icon(
+                          Icons.receipt_long_outlined,
+                          size: 80,
+                          color: Colors.black,
+                        ),
                       ),
-                      const SizedBox(height: 16),
-                      Text(
+                      const SizedBox(height: 20),
+                      const Text(
                         'Belum ada riwayat transaksi.',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textSecondary,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                     ],
@@ -71,14 +81,9 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                     final trxId = tx['trx_id'] ?? '';
                     final recipient = tx['recipient_email'] ?? '';
 
-                    return Card(
+                    return Container(
                       margin: const EdgeInsets.only(bottom: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: AppColors.border, width: 1),
-                      ),
-                      elevation: 0,
-                      color: AppColors.surface,
+                      decoration: NeoTheme.neoDecoration(),
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: Column(
@@ -90,7 +95,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                                 Text(
                                   'ID: $trxId',
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
                                     fontSize: 14,
                                     color: AppColors.textPrimary,
                                   ),
@@ -102,37 +107,35 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                                   ),
                                   decoration: BoxDecoration(
                                     color: isSuccess
-                                        ? Colors.green.withOpacity(0.1)
-                                        : Colors.red.withOpacity(0.1),
+                                        ? AppColors.neoGreen
+                                        : AppColors.neoPink,
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: isSuccess ? Colors.green : Colors.red,
-                                      width: 0.5,
-                                    ),
+                                    border: NeoTheme.borderThin,
                                   ),
                                   child: Text(
                                     isSuccess ? 'Berhasil' : 'Gagal',
-                                    style: TextStyle(
-                                      color: isSuccess ? Colors.green : Colors.red,
+                                    style: const TextStyle(
+                                      color: Colors.black,
                                       fontSize: 12,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w800,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            const Divider(height: 24),
+                            const Divider(height: 24, thickness: 2.5, color: Colors.black),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Merchant / Penerima',
                                       style: TextStyle(
                                         fontSize: 11,
-                                        color: AppColors.textSecondary,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.black54,
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -140,7 +143,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                                       recipient,
                                       style: const TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w700,
                                         color: AppColors.textPrimary,
                                       ),
                                     ),
@@ -149,20 +152,21 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Total Nominal',
                                       style: TextStyle(
                                         fontSize: 11,
-                                        color: AppColors.textSecondary,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.black54,
                                       ),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       'Rp $amount',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: isSuccess ? AppColors.primary : AppColors.textPrimary,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ],
@@ -171,11 +175,12 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                                dateStr,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.textHint,
-                                ),
+                              dateStr,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.black54,
+                              ),
                             ),
                           ],
                         ),

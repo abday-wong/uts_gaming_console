@@ -6,6 +6,7 @@ import 'package:uts_gaming_console/core/constants/app_colors.dart';
 import 'package:uts_gaming_console/core/routes/app_router.dart';
 import 'package:uts_gaming_console/core/shared/widgets/auth_header.dart';
 import 'package:uts_gaming_console/core/shared/widgets/custom_button.dart';
+import 'package:uts_gaming_console/core/theme/neo_theme.dart';
 import 'package:uts_gaming_console/features/auth/presentation/providers/auth_provider.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -95,20 +96,13 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   horizontal: 20,
                   vertical: 12,
                 ),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.primary.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
+                decoration: NeoTheme.neoDecoration(color: AppColors.neoBlue),
                 child: Text(
                   user?.email ?? '-',
                   style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black,
                   ),
                 ),
               ),

@@ -7,6 +7,7 @@ import 'package:uts_gaming_console/features/auth/presentation/providers/auth_pro
 import 'package:uts_gaming_console/features/cart/presentation/pages/cart_page.dart';
 import 'package:uts_gaming_console/features/cart/presentation/providers/cart_provider.dart';
 import 'package:uts_gaming_console/features/dashboard/presentation/providers/product_provider.dart';
+import 'package:uts_gaming_console/core/theme/neo_theme.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -33,18 +34,19 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.neoYellow,
+        foregroundColor: Colors.black,
         elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Katalog Produk', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            const Text('Katalog Produk', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.black)),
             Text(
               'Halo, ${auth.firebaseUser?.displayName ?? 'User'}!',
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.normal,
-                color: Colors.white70,
+                color: Colors.black54,
               ),
             ),
           ],
@@ -133,27 +135,13 @@ class _DashboardPageState extends State<DashboardPage> {
             itemBuilder: (context, i) {
               final p = product.products[i];
               return Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.border,
-                    width: 1,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
+                decoration: NeoTheme.neoDecoration(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
                       borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(11),
+                        top: Radius.circular(7.5),
                       ),
                       child: Image.network(
                         p.imageUrl,
@@ -180,7 +168,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             Text(
                               p.name,
                               style: const TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w800,
                                 fontSize: 13,
                                 color: AppColors.textPrimary,
                               ),
@@ -188,12 +176,20 @@ class _DashboardPageState extends State<DashboardPage> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              'Rp ${p.price.toStringAsFixed(0)}',
-                              style: const TextStyle(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: AppColors.neoYellow,
+                                border: NeoTheme.borderThin,
+                                borderRadius: NeoTheme.radiusSmall,
+                              ),
+                              child: Text(
+                                'Rp ${p.price.toStringAsFixed(0)}',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 13,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -203,19 +199,16 @@ class _DashboardPageState extends State<DashboardPage> {
                                 vertical: 3,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.accent.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  color: AppColors.accent.withOpacity(0.3),
-                                  width: 0.5,
-                                ),
+                                color: AppColors.neoPink,
+                                border: NeoTheme.borderThin,
+                                borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
                                 p.category,
                                 style: const TextStyle(
                                   fontSize: 10,
-                                  color: AppColors.accent,
-                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
@@ -240,18 +233,21 @@ class _DashboardPageState extends State<DashboardPage> {
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primary,
+                                  backgroundColor: AppColors.neoGreen,
+                                  foregroundColor: Colors.black,
                                   padding: EdgeInsets.zero,
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
+                                    side: const BorderSide(color: Colors.black, width: 2),
                                   ),
                                 ),
                                 child: const Text(
                                   'Tambah',
                                   style: TextStyle(
                                     fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),

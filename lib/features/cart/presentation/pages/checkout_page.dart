@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uts_gaming_console/core/constants/app_colors.dart';
+import 'package:uts_gaming_console/core/theme/neo_theme.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../providers/cart_provider.dart';
 import 'payment_success_page.dart';
@@ -130,10 +131,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Checkout Pesanan'),
+          title: const Text('Checkout Pesanan', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black)),
           centerTitle: true,
           automaticallyImplyLeading: !_isProcessing,
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.neoYellow,
           elevation: 0,
         ),
         backgroundColor: AppColors.background,
@@ -188,8 +189,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             width: 40,
                             height: 2,
                             color: _currentStep >= 1
-                                ? AppColors.primary
-                                : AppColors.border,
+                                ? Colors.black
+                                : AppColors.textHint,
                           ),
                           _buildStepIndicator(1, 'Bayar'),
                         ],
@@ -199,24 +200,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     Container(
                       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.primary,
-                            AppColors.primaryLight,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withOpacity(0.3),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
+                      decoration: NeoTheme.neoDecoration(color: AppColors.neoBlue),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -224,8 +208,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             'Ringkasan Pesanan',
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.black,
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -239,15 +223,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     '${cartProvider.itemCount} Item',
                                     style: const TextStyle(
                                       fontSize: 14,
-                                      color: Colors.white70,
+                                      color: Colors.black54,
                                     ),
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
                                     'Produk',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 12,
-                                      color: Colors.white.withOpacity(0.8),
+                                      color: Colors.black54,
                                     ),
                                   ),
                                 ],
@@ -259,16 +243,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     'Rp ${cartProvider.totalPrice.toStringAsFixed(0)}',
                                     style: const TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
                                     ),
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
                                     'Total Harga',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 12,
-                                      color: Colors.white.withOpacity(0.8),
+                                      color: Colors.black54,
                                     ),
                                   ),
                                 ],
@@ -285,7 +269,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         'Detail Produk',
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           color: AppColors.textPrimary,
                         ),
                       ),
@@ -301,14 +285,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           return Container(
                             margin: const EdgeInsets.only(bottom: 12),
                             padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: AppColors.surface,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: AppColors.border,
-                                width: 1,
-                              ),
-                            ),
+                            decoration: NeoTheme.neoDecoration(small: true),
                             child: Row(
                               children: [
                                 Container(
@@ -317,10 +294,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   decoration: BoxDecoration(
                                     color: AppColors.background,
                                     borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: AppColors.border,
-                                      width: 1,
-                                    ),
+                                    border: NeoTheme.borderThin,
                                   ),
                                   child: item.imageUrl != null
                                       ? ClipRRect(
@@ -386,8 +360,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       'Rp ${item.totalPrice.toStringAsFixed(0)}',
                                       style: const TextStyle(
                                         fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.accent,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ],
@@ -408,21 +382,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   right: 0,
                   child: Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.surface,
-                      border: Border(
-                        top: BorderSide(
-                          color: AppColors.border,
-                          width: 1,
-                        ),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, -4),
-                        ),
-                      ],
+                      border: Border(top: BorderSide(color: Colors.black, width: 2.5)),
                     ),
                     child: SafeArea(
                       top: false,
@@ -434,9 +396,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             margin: const EdgeInsets.only(bottom: 12),
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColors.background,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColors.border),
+                              color: AppColors.surface,
+                              borderRadius: NeoTheme.radius,
+                              border: NeoTheme.border,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -455,7 +417,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 RadioListTile<String>(
                                   value: 'emoney',
                                   groupValue: _selectedPaymentMethod,
-                                  activeColor: AppColors.primary,
+                                  activeColor: AppColors.neoGreen,
                                   contentPadding: EdgeInsets.zero,
                                   title: const Text(
                                     'E-Money (Wallet)',
@@ -475,7 +437,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 RadioListTile<String>(
                                   value: 'simulation',
                                   groupValue: _selectedPaymentMethod,
-                                  activeColor: AppColors.primary,
+                                  activeColor: AppColors.neoGreen,
                                   contentPadding: EdgeInsets.zero,
                                   title: const Text(
                                     'Simulasi COD / COD',
@@ -513,8 +475,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     'Rp ${cartProvider.totalPrice.toStringAsFixed(0)}',
                                     style: const TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.accent,
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ],
@@ -524,15 +486,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           const SizedBox(height: 12),
                           ElevatedButton(
                             onPressed: _isProcessing ? null : _processCheckout,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.accent,
-                              disabledBackgroundColor: AppColors.accent.withOpacity(0.6),
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 2,
-                            ),
+                            style: NeoTheme.neoButtonStyle(backgroundColor: AppColors.neoPink, foregroundColor: Colors.black),
                             child: _isProcessing
                                 ? SizedBox(
                                     height: 24,
@@ -547,8 +501,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     'Proses Pembayaran',
                                     style: TextStyle(
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
                                     ),
                                   ),
                           ),
@@ -573,23 +527,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: isActive ? AppColors.primary : AppColors.border,
+            color: isActive ? AppColors.neoGreen : AppColors.background,
             shape: BoxShape.circle,
-            boxShadow: isActive
-                ? [
-                    BoxShadow(
-                      color: AppColors.primary.withOpacity(0.3),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ]
-                : [],
+            border: NeoTheme.borderThin,
+            boxShadow: isActive ? const [NeoTheme.shadowSmall] : [],
           ),
           child: Center(
             child: Text(
               '${step + 1}',
               style: TextStyle(
-                color: isActive ? Colors.white : AppColors.textSecondary,
+                color: isActive ? Colors.black : AppColors.textSecondary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -601,7 +548,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w500,
-            color: isActive ? AppColors.primary : AppColors.textSecondary,
+            color: isActive ? Colors.black : AppColors.textSecondary,
           ),
         ),
       ],
