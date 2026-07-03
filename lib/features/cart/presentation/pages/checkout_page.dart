@@ -21,6 +21,7 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   bool _isProcessing = false;
   int _currentStep = 0;
+  String _selectedPaymentMethod = 'emoney';
   Future<void> _downloadQris(BuildContext context, String url, String trxId) async {
     // Show a loading indicator SnackBar
     ScaffoldMessenger.of(context).showSnackBar(
