@@ -6,6 +6,8 @@ import 'package:uts_gaming_console/core/routes/app_router.dart';
 import 'package:uts_gaming_console/core/shared/widgets/auth_header.dart';
 import 'package:uts_gaming_console/core/shared/widgets/custom_button.dart';
 import 'package:uts_gaming_console/core/shared/widgets/custom_text_field.dart';
+import 'package:uts_gaming_console/core/shared/widgets/divider_with_text.dart';
+import 'package:uts_gaming_console/core/shared/widgets/google_sign_in_button.dart';
 import 'package:uts_gaming_console/core/shared/widgets/loading_overlay.dart';
 import 'package:uts_gaming_console/features/auth/presentation/providers/auth_provider.dart';
 
@@ -50,6 +52,23 @@ class _RegisterPageState extends State<RegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(auth.errorMessage ?? 'Pendaftaran gagal'),
+          backgroundColor: AppColors.accent,
+        ),
+      );
+    }
+  }
+
+  /// Handler untuk login/register Google
+  Future<void> _loginGoogle() async {
+    final auth = context.read<AuthProvider>();
+    final success = await auth.loginWithGoogle();
+    if (!mounted) return;
+    if (success) {
+      Navigator.pushReplacementNamed(context, AppRouter.dashboard);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(auth.errorMessage ?? 'Pendaftaran Google gagal'),
           backgroundColor: AppColors.accent,
         ),
       );
@@ -142,7 +161,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     onPressed: _register,
                     isLoading: isLoading,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
+                  const DividerWithText(text: 'atau daftar dengan'),
+                  const SizedBox(height: 20),
+                  GoogleSignInButton(
+                    onPressed: _loginGoogle,
+                    isLoading: isLoading,
+                  ),
+                  const SizedBox(height: 24),
 
                   // Link ke Login
                   Row(
