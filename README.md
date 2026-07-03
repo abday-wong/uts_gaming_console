@@ -1,7 +1,7 @@
 # Doran Gaming Console - Aplikasi E-Commerce dan Integrasi Pembayaran
 **Proyek E-Commerce Penjualan Konsol Game**
 
-Proyek ini adalah bagian dari tugas Ujian Akhir Semester (UAS) Genap 2025/2026 untuk mata kuliah Aplikasi Mobile Lanjutan.
+Proyek ini adalah bagian dari tugas Ujian Tengah Semester (UTS) Genap 2025/2026 untuk mata kuliah Aplikasi Mobile Lanjutan.
 
 ### Identitas Mahasiswa
 
@@ -126,7 +126,7 @@ flutter run
 ## Link Video Presentasi
 Silakan akses video demonstrasi alur transaksi lengkap dan penjelasan kode program pada tautan YouTube berikut:
 
-[![Tonton Video Presentasi UAS](https://img.youtube.com/vi/q0XPGJDBPDU/hqdefault.jpg)](https://youtu.be/q0XPGJDBPDU)
+[![Tonton Video Presentasi UTS/UAS](https://img.youtube.com/vi/q0XPGJDBPDU/hqdefault.jpg)](https://youtu.be/q0XPGJDBPDU)
 
 **Tautan Video**: [https://youtu.be/q0XPGJDBPDU](https://youtu.be/q0XPGJDBPDU)
 
