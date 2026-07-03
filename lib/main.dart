@@ -128,7 +128,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _handleDeepLink(Uri uri) {
+  Future<void> _handleDeepLink(Uri uri) async {
     debugPrint('Received Deep Link: $uri');
     bool isCallback = (uri.scheme == 'ecommerce' && uri.host == 'callback');
     if (kIsWeb && uri.queryParameters.containsKey('status') && uri.queryParameters.containsKey('trx_id')) {
@@ -147,7 +147,7 @@ class _MyAppState extends State<MyApp> {
         final now = DateTime.now();
         final dateStr = '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
         
-        SecureStorage.saveTransaction({
+        await SecureStorage.saveTransaction({
           'trx_id': trxId,
           'amount': amount,
           'recipient_email': recipient,
@@ -155,52 +155,66 @@ class _MyAppState extends State<MyApp> {
           'date': dateStr,
         });
 
-        if (status == 'success') {
-          context.read<CartProvider>().clearCart();
-          // Reset stack ke dashboard terlebih dahulu
-          MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-            AppRouter.dashboard,
-            (route) => false,
-          );
-          // Tumpuk halaman sukses di atas dashboard
-          MyApp.navigatorKey.currentState?.push(
-            MaterialPageRoute(
-              builder: (context) => PaymentSuccessPage(
-                trxId: trxId,
-                amount: amount,
-                recipientEmail: recipient,
-                onSuccess: () {
-                  MyApp.navigatorKey.currentState?.pop();
-                },
-              ),
-            ),
-          );
-        } else {
-          final error = uri.queryParameters['error'] ?? 'Cancelled';
-          // Reset stack ke dashboard terlebih dahulu
-          MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-            AppRouter.dashboard,
-            (route) => false,
-          );
-          final currentContext = MyApp.navigatorKey.currentContext;
-          if (currentContext != null) {
-            showDialog(
-              context: currentContext,
-              barrierDismissible: false,
-              builder: (ctx) => AlertDialog(
-                icon: const Icon(Icons.error, color: Colors.red, size: 60),
-                title: const Text('Pembayaran Gagal'),
-                content: Text('Error: $error\nID Transaksi: $trxId'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(ctx).pop(),
-                    child: const Text('OK'),
+        // Use SchedulerBinding to make sure the app context is fully active and ready for navigation
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          try {
+            if (status == 'success') {
+              try {
+                context.read<CartProvider>().clearCart();
+              } catch (pe) {
+                debugPrint('[DeepLink] Provider error: $pe');
+              }
+              
+              // Reset stack ke dashboard terlebih dahulu
+              MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                AppRouter.dashboard,
+                (route) => false,
+              );
+              
+              // Tumpuk halaman sukses di atas dashboard
+              MyApp.navigatorKey.currentState?.push(
+                MaterialPageRoute(
+                  builder: (context) => PaymentSuccessPage(
+                    trxId: trxId,
+                    amount: amount,
+                    recipientEmail: recipient,
+                    onSuccess: () {
+                      MyApp.navigatorKey.currentState?.pop();
+                    },
                   ),
-                ],
-              ),
-            );
+                ),
+              );
+            } else {
+              final error = uri.queryParameters['error'] ?? 'Cancelled';
+              // Reset stack ke dashboard terlebih dahulu
+              MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                AppRouter.dashboard,
+                (route) => false,
+              );
+              
+              final currentContext = MyApp.navigatorKey.currentContext;
+              if (currentContext != null) {
+                showDialog(
+                  context: currentContext,
+                  barrierDismissible: false,
+                  builder: (ctx) => AlertDialog(
+                    icon: const Icon(Icons.error, color: Colors.red, size: 60),
+                    title: const Text('Pembayaran Gagal'),
+                    content: Text('Error: $error\nID Transaksi: $trxId'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(ctx).pop(),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            }
+          } catch (e) {
+            debugPrint('[DeepLink] Navigation error: $e');
           }
-        }
+        });
       }
     }
   }
