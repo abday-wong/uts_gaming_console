@@ -1,6 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:dio/dio.dart';
+import 'package:gal/gal.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uts_gaming_console/core/constants/app_colors.dart';
 import 'package:uts_gaming_console/core/theme/neo_theme.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -17,7 +21,62 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   bool _isProcessing = false;
   int _currentStep = 0;
-  String _selectedPaymentMethod = 'emoney'; // 'emoney' or 'simulation'
+  Future<void> _downloadQris(BuildContext context, String url, String trxId) async {
+    // Show a loading indicator SnackBar
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Row(
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+            ),
+            SizedBox(width: 12),
+            Text('Mengunduh gambar QRIS...'),
+          ],
+        ),
+        duration: Duration(seconds: 1),
+      ),
+    );
+
+    try {
+      // 1. Get temporary directory path
+      final tempDir = await getTemporaryDirectory();
+      final tempPath = '${tempDir.path}/qris_$trxId.png';
+
+      // 2. Download the image bytes using Dio
+      final dio = Dio();
+      await dio.download(url, tempPath);
+
+      // 3. Save the image to the gallery using Gal
+      await Gal.putImage(tempPath);
+
+      // 4. Show success SnackBar
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('QRIS berhasil disimpan ke Galeri!'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('[QRIS Download] Error: $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Gagal menyimpan gambar: $e'),
+            backgroundColor: AppColors.accent,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
 
   void _processCheckout() async {
     final cartProvider = context.read<CartProvider>();
@@ -161,6 +220,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
             actions: [
               TextButton(
+                onPressed: () => _downloadQris(context, qrCodeUrl, trxId),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                child: const Text('Simpan ke Galeri'),
+              ),
+              TextButton(
                 onPressed: () async {
                   final uri = Uri.parse(qrCodeUrl);
                   try {
@@ -170,10 +237,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   }
                 },
                 style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primary,
+                  foregroundColor: AppColors.textSecondary,
                   textStyle: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                child: const Text('Buka / Simpan Gambar'),
+                child: const Text('Buka di Browser'),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),

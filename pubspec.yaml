@@ -39,6 +39,8 @@ dependencies:
   firebase_auth: ^6.5.2
   google_sign_in: ^6.2.1
   dio: ^5.9.2
+  gal: ^2.3.2
+  path_provider: ^2.1.2
   equatable: ^2.0.8
   email_validator: ^3.0.0
   flutter_svg: ^2.2.4
