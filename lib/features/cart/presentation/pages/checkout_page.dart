@@ -161,6 +161,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
             actions: [
               TextButton(
+                onPressed: () async {
+                  final uri = Uri.parse(qrCodeUrl);
+                  try {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  } catch (e) {
+                    debugPrint('Gagal membuka link QRIS: $e');
+                  }
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                child: const Text('Buka / Simpan Gambar'),
+              ),
+              TextButton(
                 onPressed: () => Navigator.of(context).pop(),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.black,
