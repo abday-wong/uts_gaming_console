@@ -1,15 +1,19 @@
 # Doran Gaming Console - Aplikasi E-Commerce dan Integrasi Pembayaran
+**Proyek E-Commerce Penjualan Konsol Game**
 
 Proyek ini adalah bagian dari tugas Ujian Akhir Semester (UAS) Genap 2025/2026 untuk mata kuliah Aplikasi Mobile Lanjutan.
 
 ### Identitas Mahasiswa
-* **Nama**: Muhammad Abday Abdul Hafidz
-* **NIM**: 1123150093
-* **Kelas**: TI SE23 P1
-* **Matakuliah**: Aplikasi Mobile Lanjutan (KB1154)
-* **Program Studi**: Teknik Informatika
-* **Dosen Pengampu**: IKetut Gunawan, S.KOM, M.T.I
-* **Institut**: Institut Teknologi dan Bisnis Bina Sarana Global
+
+| Detail Akademik | Informasi |
+| :--- | :--- |
+| **Nama Lengkap** | Muhammad Abday Abdul Hafidz |
+| **NIM** | 1123150093 |
+| **Kelas** | TI SE23 P1 |
+| **Program Studi** | Teknik Informatika |
+| **Mata Kuliah** | Aplikasi Mobile Lanjutan (KB1154) |
+| **Dosen Pengampu** | IKetut Gunawan, S.KOM, M.T.I |
+| **Institut** | Institut Teknologi dan Bisnis Bina Sarana Global |
 
 ---
 
@@ -18,7 +22,7 @@ Doran Gaming Console adalah aplikasi E-Commerce berbasis Flutter yang mengkhusus
 
 ### Fitur Utama:
 * **Katalog Produk dan Detail**: Menampilkan koleksi konsol game dan aksesoris dengan deskripsi lengkap dan harga.
-* **Keranjang Belanja (Cart)**: Menambah, memodifikasi kuantitas, dan menghapus item belanjaan sebelum checkout.
+* **Keranjang Belanja (Cart)**: Menambah, memodifikasi kuantitas, dan menghapus item belanjaan sebelum checkout secara lokal.
 * **Integrasi Pembayaran (Outgoing Deep Link)**: Mengirimkan total tagihan belanja secara instan ke aplikasi Doran Pay untuk diproses pembayarannya.
 * **Penanganan Status Transaksi (Incoming Deep Link)**: Menerima callback dari Doran Pay, membersihkan isi keranjang belanja secara otomatis jika transaksi sukses, menyimpan log rincian transaksi, dan menampilkan struk bukti pembayaran digital.
 * **Notifikasi Pengiriman (FCM)**: Menerima notifikasi push status transaksi dan logistik barang menggunakan Firebase Cloud Messaging.
@@ -27,43 +31,54 @@ Doran Gaming Console adalah aplikasi E-Commerce berbasis Flutter yang mengkhusus
 ---
 
 ## 2. Arsitektur Aplikasi
-Aplikasi Doran Gaming Console dirancang menggunakan pola arsitektur **MVVM (Model-View-ViewModel)** dengan pemisahan peran yang jelas untuk memudahkan pengujian kode:
+Aplikasi Doran Gaming Console dirancang menggunakan pola arsitektur **MVVM (Model-View-ViewModel)** dengan pemisahan folder berbasis modul fitur (*feature-based*):
 
 ```
-lib/
-├── core/
-│   ├── router/          # Konfigurasi Navigasi dan Deep Link Handlers
-│   └── theme/           # Konfigurasi Gaya Neubrutalism (Shadows, Borders, Colors)
-├── models/              # Struktur data model (Product, CartItem, Transaction)
-├── providers/           # ViewModels / State Management (CartProvider, AuthProvider)
-├── screens/             # Presentation Views (Dashboard, ProductDetail, Cart, Success)
-├── services/            # Secure Storage dan Firebase Cloud Messaging
-└── main.dart            # Inisialisasi Firebase dan Entry point utama
+uts_gaming_console/ (Root)
+├── android/             # Konfigurasi platform Android native (AndroidManifest.xml, google-services.json)
+├── assets/              # Aset gambar produk game konsol dan ikon aplikasi
+├── lib/                 # Kode sumber utama Flutter
+│   ├── core/
+│   │   ├── constants/   # String statis, gambar, dan alamat API (AppStrings)
+│   │   ├── routes/      # Konfigurasi navigasi rute halaman aplikasi (AppRouter)
+│   │   ├── services/    # Secure Storage untuk log transaksi lokal & layanan Firebase Messaging
+│   │   ├── theme/       # Sistem desain warna neubrutalism tebal (AppColors, AppTheme)
+│   │   └── shared/      # Komponen UI reusable global (AppButton, AppTextField)
+│   ├── features/
+│   │   ├── auth/        # Login/Register, data user, dan otentikasi login
+│   │   ├── cart/        # Halaman Cart, Checkout, struk sukses, dan state CartProvider
+│   │   └── dashboard/   # Layar Katalog Utama, Detail Produk, dan ProductProvider
+│   ├── firebase_options.dart # Konfigurasi client Firebase (tidak dilacak oleh Git)
+│   └── main.dart        # Inisialisasi Firebase Core, penangkap Deep Link, dan routing
+├── test/                # Berkas testing untuk uji coba program
+├── pubspec.yaml         # Definisi dependensi package luar dan konfigurasi aset Flutter
+└── README.md            # Dokumentasi utama proyek E-Commerce
 ```
 
 ### Penjelasan Komponen MVVM:
-* **Model**: Representasi data produk, keranjang, dan rincian transaksi belanja.
-* **View (Screens)**: File antarmuka pengguna yang murni bertugas merender layout Neubrutalism. View merespons perubahan data yang dipancarkan oleh Providers (ViewModels) dan memicu fungsi tindakan (seperti checkout atau menambah item).
-* **ViewModel (Providers)**: Menggunakan package Provider untuk menangani logika aplikasi. Misalnya, `CartProvider` mengurus perhitungan subtotal harga produk, penambahan jumlah kuantitas barang, pengosongan keranjang belanja saat transaksi berhasil, serta penyimpanan riwayat transaksi ke penyimpanan terenkripsi lokal HP (`SecureStorage`).
+* **Model**: Struktur data mentah produk, item keranjang, dan rincian transaksi belanja (terletak di subfolder `data/models/`).
+* **View (Screens)**: Tampilan antarmuka yang murni bertugas merender layout Neubrutalism dan berinteraksi langsung dengan pengguna.
+* **ViewModel (Providers)**: Menggunakan package `Provider` untuk memisahkan logic dari UI. `CartProvider` mengurus perhitungan subtotal harga produk secara reaktif, menaikkan jumlah barang, menghapus barang, dan mengosongkan keranjang belanja saat callback pembayaran sukses terdeteksi.
 
 ---
 
 ## 3. Implementasi Deep Link dan Notifikasi FCM
-Bagian ini menjelaskan teknik integrasi utama yang digunakan pada UAS:
+Mekanisme ini dirancang untuk memenuhi ketentuan utama integrasi App-to-App yang aman:
 
 ### A. Deep Link Outgoing (Checkout)
-Ketika pengguna menekan tombol "Bayar Sekarang" di halaman keranjang belanja, aplikasi merangkai string query URL checkout khusus:
+Ketika pengguna menekan tombol "Bayar Sekarang" di halaman checkout, aplikasi merangkai string query URL checkout khusus ke aplikasi Doran Pay:
 ```
-dpay://checkout?amount=450000&recipient_email=merchant@gamingstore.com&trx_id=TX-871528&callback_url=ecommerce://callback
+emoney://pay?amount=13000000&recipient=recipient@example.com&trx_id=TX-871528&callback=ecommerce://callback
 ```
-Aplikasi menggunakan library url_launcher untuk meluncurkan link ini. Sistem Android akan secara otomatis membuka aplikasi Doran Pay untuk melanjutkan pembayaran.
+Aplikasi menggunakan library `url_launcher` dengan mode `LaunchMode.externalApplication` untuk meluncurkan link ini. Sistem Android secara otomatis akan mendeteksi skema `emoney` dan membuka halaman pembayaran di aplikasi Doran Pay.
 
 ### B. Deep Link Incoming (Callback Handler)
 Aplikasi mendaftarkan skema URL `ecommerce://callback` di file `android/app/src/main/AndroidManifest.xml`.
 * Saat transaksi di Doran Pay selesai, Doran Pay memicu callback tersebut.
-* Aplikasi menangkap URI callback, mengambil parameter query (`status`, `trx_id`, `amount`, `recipient_email`), lalu mengeksekusi logika:
-  * Jika status adalah `success`, `CartProvider.clearCart()` dipanggil untuk mereset keranjang belanja.
-  * Data rincian transaksi sukses disimpan ke `SecureStorage` untuk dicatat sebagai riwayat transaksi.
+* Aplikasi menangkap URI callback di dalam file `lib/main.dart` melalui `_handleDeepLink(Uri uri)`.
+* Aplikasi mengambil parameter query (`status`, `trx_id`, `amount`, `recipient_email`), lalu mengeksekusi logika:
+  * Jika status adalah `success`, `CartProvider.clearCart()` dipanggil untuk mengosongkan keranjang belanja lokal.
+  * Data rincian transaksi sukses disimpan ke `SecureStorage` untuk dicatat sebagai riwayat transaksi lokal.
   * Aplikasi langsung mengalihkan rute ke `PaymentSuccessPage` untuk menampilkan struk bukti pembayaran yang detail kepada pengguna.
 
 ### C. Firebase Cloud Messaging (FCM)
@@ -110,4 +125,21 @@ flutter run
 
 ## Link Video Presentasi
 Silakan akses video demonstrasi alur transaksi lengkap dan penjelasan kode program pada tautan YouTube berikut:
-* **[Link Video Presentasi UAS Mobile Lanjutan](https://youtube.com/...)**
+
+[![Tonton Video Presentasi UAS](https://img.youtube.com/vi/q0XPGJDBPDU/hqdefault.jpg)](https://youtu.be/q0XPGJDBPDU)
+
+**Tautan Video**: [https://youtu.be/q0XPGJDBPDU](https://youtu.be/q0XPGJDBPDU)
+
+***(Pencet gambar di atas atau klik tautan video untuk menonton videonya)***
+
+---
+
+## 6. Repositori Proyek Terkait
+Proyek integrasi App-to-App ini terdiri dari 4 modul repositori terpisah yang saling terhubung:
+
+| Modul Proyek | Jenis Modul | Tautan Repositori GitHub |
+| :--- | :--- | :--- |
+| **Doran Pay (E-Money)** | Frontend (Flutter Mobile App) | [github.com/abday-wong/fe-emoney](https://github.com/abday-wong/fe-emoney) |
+| **E-Money Backend** | Backend (Go REST API) | [github.com/abday-wong/be-emoney](https://github.com/abday-wong/be-emoney) |
+| **Doran Gaming (E-Commerce)** | Frontend (Flutter Mobile App) | [github.com/abday-wong/uts_gaming_console](https://github.com/abday-wong/uts_gaming_console) |
+| **E-Commerce Backend** | Backend (Go REST API) | [github.com/abday-wong/gaming-console-backend](https://github.com/abday-wong/gaming-console-backend) |
