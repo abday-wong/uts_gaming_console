@@ -5,6 +5,7 @@ import 'package:uts_gaming_console/core/constants/app_colors.dart';
 import 'package:uts_gaming_console/core/routes/app_router.dart';
 import 'package:uts_gaming_console/features/auth/presentation/providers/auth_provider.dart';
 import 'package:uts_gaming_console/features/cart/presentation/pages/cart_page.dart';
+import 'package:uts_gaming_console/features/cart/presentation/pages/transaction_history_page.dart';
 import 'package:uts_gaming_console/features/cart/presentation/providers/cart_provider.dart';
 import 'package:uts_gaming_console/features/dashboard/presentation/providers/product_provider.dart';
 import 'package:uts_gaming_console/core/theme/neo_theme.dart';
@@ -61,6 +62,16 @@ class _DashboardPageState extends State<DashboardPage> {
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.history_outlined),
+            tooltip: 'Riwayat Transaksi',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TransactionHistoryPage()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             tooltip: 'Keranjang',
