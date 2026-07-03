@@ -6,14 +6,14 @@ import 'package:uts_gaming_console/features/dashboard/data/models/product_model.
 
 enum ProductStatus { initial, loading, loaded, error }
 
-class ProductProvider extends ChangeNotifier{
-  ProductStatus       _status   = ProductStatus.initial;
-  List<ProductModel>  _products = [];
-  String?             _error;
-  ProductStatus      get status   => _status;
+class ProductProvider extends ChangeNotifier {
+  ProductStatus _status = ProductStatus.initial;
+  List<ProductModel> _products = [];
+  String? _error;
+  ProductStatus get status => _status;
   List<ProductModel> get products => _products;
-  String?            get error    => _error;
-  bool               get isLoading => _status == ProductStatus.loading;
+  String? get error => _error;
+  bool get isLoading => _status == ProductStatus.loading;
 
   // Fetch products — token otomatis disertakan oleh DioClient interceptor
   Future<void> fetchProducts() async {
@@ -26,13 +26,12 @@ class ProductProvider extends ChangeNotifier{
       // Backend response: { "data": [ {...}, {...} ] }
       final List<dynamic> data = response.data['data'];
       _products = data.map((e) => ProductModel.fromJson(e)).toList();
-      _status   = ProductStatus.loaded;
+      _status = ProductStatus.loaded;
     } on DioException catch (e) {
-      _error  = e.response?.data['message'] ?? 'Gagal memuat produk';
+      _error = e.response?.data['message'] ?? 'Gagal memuat produk';
       _status = ProductStatus.error;
     }
 
     notifyListeners();
   }
-
 }

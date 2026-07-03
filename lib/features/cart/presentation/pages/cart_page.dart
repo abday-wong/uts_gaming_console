@@ -12,7 +12,10 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Keranjang Belanja', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black)),
+        title: const Text(
+          'Keranjang Belanja',
+          style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black),
+        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppColors.neoYellow,
@@ -94,11 +97,7 @@ class CartPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Container(
-                          width: 1,
-                          height: 40,
-                          color: Colors.black,
-                        ),
+                        Container(width: 1, height: 40, color: Colors.black),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -167,10 +166,12 @@ class CartPage extends StatelessWidget {
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         item.productName,
@@ -311,10 +312,11 @@ class CartPage extends StatelessWidget {
                                     Text(
                                       'Rp ${item.totalPrice.toStringAsFixed(0)}',
                                       style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w900,
-                                      color: Colors.black,
-                                    ),  ),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -331,7 +333,9 @@ class CartPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: AppColors.surface,
-                  border: const Border(top: BorderSide(color: Colors.black, width: 2.5)),
+                  border: const Border(
+                    top: BorderSide(color: Colors.black, width: 2.5),
+                  ),
                 ),
                 child: SafeArea(
                   top: false,
@@ -355,10 +359,11 @@ class CartPage extends StatelessWidget {
                               Text(
                                 'Rp ${cartProvider.totalPrice.toStringAsFixed(0)}',
                                 style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.black,
-                              ),  ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -373,7 +378,10 @@ class CartPage extends StatelessWidget {
                             ),
                           );
                         },
-                        style: NeoTheme.neoButtonStyle(backgroundColor: AppColors.neoGreen, foregroundColor: Colors.black),
+                        style: NeoTheme.neoButtonStyle(
+                          backgroundColor: AppColors.neoGreen,
+                          foregroundColor: Colors.black,
+                        ),
                         child: const Text(
                           'Lanjut ke Checkout',
                           style: TextStyle(

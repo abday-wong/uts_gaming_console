@@ -21,7 +21,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
   bool _isProcessing = false;
   int _currentStep = 0;
   String _selectedPaymentMethod = 'emoney';
-  Future<void> _downloadQris(BuildContext context, String url, String trxId) async {
+  Future<void> _downloadQris(
+    BuildContext context,
+    String url,
+    String trxId,
+  ) async {
     // Show a loading indicator SnackBar
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -30,7 +34,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
             SizedBox(
               width: 16,
               height: 16,
-              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
             ),
             SizedBox(width: 12),
             Text('Mengunduh gambar QRIS...'),
@@ -88,7 +95,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
       });
 
       // Generate unique transaction ID
-      final trxId = 'TX-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+      final trxId =
+          'TX-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
       const merchantEmail = 'recipient@example.com';
 
       if (kIsWeb) {
@@ -96,7 +104,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           'http://localhost:52130/?amount=$amount'
           '&recipient=$merchantEmail'
           '&trx_id=$trxId'
-          '&callback=${Uri.encodeComponent('http://localhost:55486/')}'
+          '&callback=${Uri.encodeComponent('http://localhost:55486/')}',
         );
         debugPrint('Launching E-Money Web Link: $webUri');
         try {
@@ -114,12 +122,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
       }
 
       const callbackUrl = 'ecommerce://callback';
-      
+
       final deepLinkUri = Uri.parse(
         'emoney://pay?amount=$amount'
         '&recipient=$merchantEmail'
         '&trx_id=$trxId'
-        '&callback=${Uri.encodeComponent(callbackUrl)}'
+        '&callback=${Uri.encodeComponent(callbackUrl)}',
       );
 
       debugPrint('Launching E-Money Deep Link: $deepLinkUri');
@@ -157,11 +165,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
         _isProcessing = false;
       });
 
-      final trxId = 'TX-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+      final trxId =
+          'TX-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
       const merchantEmail = 'recipient@example.com';
       const callbackUrl = 'ecommerce://callback';
-      final qrisPayload = 'emoney://pay?amount=$amount&recipient=$merchantEmail&trx_id=$trxId&callback=${Uri.encodeComponent(callbackUrl)}';
-      final qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${Uri.encodeComponent(qrisPayload)}';
+      final qrisPayload =
+          'emoney://pay?amount=$amount&recipient=$merchantEmail&trx_id=$trxId&callback=${Uri.encodeComponent(callbackUrl)}';
+      final qrCodeUrl =
+          'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${Uri.encodeComponent(qrisPayload)}';
 
       if (mounted) {
         showDialog(
@@ -179,7 +190,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 SizedBox(width: 8),
                 Text(
                   'Bayar QRIS',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
                 ),
               ],
             ),
@@ -209,7 +224,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 const SizedBox(height: 16),
                 Text(
                   'Total Tagihan: Rp ${amount.toStringAsFixed(0)}',
-                  style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 15, color: Colors.black),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -292,7 +311,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Checkout Pesanan', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black)),
+          title: const Text(
+            'Checkout Pesanan',
+            style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black),
+          ),
           centerTitle: true,
           automaticallyImplyLeading: !_isProcessing,
           backgroundColor: AppColors.neoYellow,
@@ -361,7 +383,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     Container(
                       margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       padding: const EdgeInsets.all(16),
-                      decoration: NeoTheme.neoDecoration(color: AppColors.neoBlue),
+                      decoration: NeoTheme.neoDecoration(
+                        color: AppColors.neoBlue,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -459,7 +483,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   ),
                                   child: item.imageUrl != null
                                       ? ClipRRect(
-                                          borderRadius: BorderRadius.circular(7),
+                                          borderRadius: BorderRadius.circular(
+                                            7,
+                                          ),
                                           child: Image.network(
                                             item.imageUrl!,
                                             fit: BoxFit.cover,
@@ -474,7 +500,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         item.productName,
@@ -545,7 +572,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     padding: const EdgeInsets.all(16),
                     decoration: const BoxDecoration(
                       color: AppColors.surface,
-                      border: Border(top: BorderSide(color: Colors.black, width: 2.5)),
+                      border: Border(
+                        top: BorderSide(color: Colors.black, width: 2.5),
+                      ),
                     ),
                     child: SafeArea(
                       top: false,
@@ -565,7 +594,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
                                   child: Text(
                                     'Pilih Metode Pembayaran',
                                     style: TextStyle(
@@ -582,13 +614,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   contentPadding: EdgeInsets.zero,
                                   title: const Text(
                                     'E-Money (Wallet)',
-                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   subtitle: const Text(
                                     'App-to-App payment integration',
                                     style: TextStyle(fontSize: 11),
                                   ),
-                                  secondary: const Icon(Icons.account_balance_wallet, color: AppColors.primary),
+                                  secondary: const Icon(
+                                    Icons.account_balance_wallet,
+                                    color: AppColors.primary,
+                                  ),
                                   onChanged: (val) {
                                     setState(() {
                                       _selectedPaymentMethod = val!;
@@ -602,13 +640,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   contentPadding: EdgeInsets.zero,
                                   title: const Text(
                                     'Simulasi COD / COD',
-                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   subtitle: const Text(
                                     'Simulasi checkout langsung',
                                     style: TextStyle(fontSize: 11),
                                   ),
-                                  secondary: const Icon(Icons.payment, color: AppColors.textSecondary),
+                                  secondary: const Icon(
+                                    Icons.payment,
+                                    color: AppColors.textSecondary,
+                                  ),
                                   onChanged: (val) {
                                     setState(() {
                                       _selectedPaymentMethod = val!;
@@ -622,13 +666,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   contentPadding: EdgeInsets.zero,
                                   title: const Text(
                                     'QRIS (Scan & Pay)',
-                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   subtitle: const Text(
                                     'Tampilkan kode QR untuk discan',
                                     style: TextStyle(fontSize: 11),
                                   ),
-                                  secondary: const Icon(Icons.qr_code_scanner, color: AppColors.primary),
+                                  secondary: const Icon(
+                                    Icons.qr_code_scanner,
+                                    color: AppColors.primary,
+                                  ),
                                   onChanged: (val) {
                                     setState(() {
                                       _selectedPaymentMethod = val!;
@@ -667,14 +717,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           const SizedBox(height: 12),
                           ElevatedButton(
                             onPressed: _isProcessing ? null : _processCheckout,
-                            style: NeoTheme.neoButtonStyle(backgroundColor: AppColors.neoPink, foregroundColor: Colors.black),
+                            style: NeoTheme.neoButtonStyle(
+                              backgroundColor: AppColors.neoPink,
+                              foregroundColor: Colors.black,
+                            ),
                             child: _isProcessing
                                 ? SizedBox(
                                     height: 24,
                                     width: 24,
                                     child: CircularProgressIndicator(
                                       valueColor:
-                                          const AlwaysStoppedAnimation<Color>(Colors.white),
+                                          const AlwaysStoppedAnimation<Color>(
+                                            Colors.white,
+                                          ),
                                       strokeWidth: 2,
                                     ),
                                   )

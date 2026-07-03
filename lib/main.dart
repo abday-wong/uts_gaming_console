@@ -77,12 +77,15 @@ class _MyAppState extends State<MyApp> {
   void _initDeepLinking() {
     _appLinks = AppLinks();
 
-    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
-      if (!mounted) return;
-      _handleDeepLink(uri);
-    }, onError: (err) {
-      debugPrint('Deep Link Error: $err');
-    });
+    _linkSubscription = _appLinks.uriLinkStream.listen(
+      (uri) {
+        if (!mounted) return;
+        _handleDeepLink(uri);
+      },
+      onError: (err) {
+        debugPrint('Deep Link Error: $err');
+      },
+    );
 
     _appLinks.getInitialLink().then((uri) {
       if (uri != null && mounted) {
@@ -101,15 +104,23 @@ class _MyAppState extends State<MyApp> {
             showDialog(
               context: context,
               builder: (ctx) => AlertDialog(
-                icon: const Icon(Icons.notifications_active, color: Colors.blue, size: 48),
-                title: Text(message.notification!.title ?? 'Notifikasi Transaksi'),
+                icon: const Icon(
+                  Icons.notifications_active,
+                  color: Colors.blue,
+                  size: 48,
+                ),
+                title: Text(
+                  message.notification!.title ?? 'Notifikasi Transaksi',
+                ),
                 content: Text(message.notification!.body ?? ''),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.of(ctx).pop();
                       // Refresh transactions list if page is open
-                      MyApp.navigatorKey.currentState?.pushNamed('/transaction-history');
+                      MyApp.navigatorKey.currentState?.pushNamed(
+                        '/transaction-history',
+                      );
                     },
                     child: const Text('Lihat Riwayat'),
                   ),
@@ -131,7 +142,9 @@ class _MyAppState extends State<MyApp> {
   Future<void> _handleDeepLink(Uri uri) async {
     debugPrint('Received Deep Link: $uri');
     bool isCallback = (uri.scheme == 'ecommerce' && uri.host == 'callback');
-    if (kIsWeb && uri.queryParameters.containsKey('status') && uri.queryParameters.containsKey('trx_id')) {
+    if (kIsWeb &&
+        uri.queryParameters.containsKey('status') &&
+        uri.queryParameters.containsKey('trx_id')) {
       isCallback = true;
     }
 
@@ -139,14 +152,16 @@ class _MyAppState extends State<MyApp> {
       final status = uri.queryParameters['status'];
       final trxId = uri.queryParameters['trx_id'] ?? 'N/A';
       final amount = uri.queryParameters['amount'] ?? '0';
-      final recipient = uri.queryParameters['recipient_email'] ?? 'recipient@example.com';
+      final recipient =
+          uri.queryParameters['recipient_email'] ?? 'recipient@example.com';
 
       final context = MyApp.navigatorKey.currentContext;
       if (context != null) {
         // Save to local secure storage
         final now = DateTime.now();
-        final dateStr = '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
-        
+        final dateStr =
+            '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
+
         await SecureStorage.saveTransaction({
           'trx_id': trxId,
           'amount': amount,
@@ -164,13 +179,13 @@ class _MyAppState extends State<MyApp> {
               } catch (pe) {
                 debugPrint('[DeepLink] Provider error: $pe');
               }
-              
+
               // Reset stack ke dashboard terlebih dahulu
               MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
                 AppRouter.dashboard,
                 (route) => false,
               );
-              
+
               // Tumpuk halaman sukses di atas dashboard
               MyApp.navigatorKey.currentState?.push(
                 MaterialPageRoute(
@@ -191,7 +206,7 @@ class _MyAppState extends State<MyApp> {
                 AppRouter.dashboard,
                 (route) => false,
               );
-              
+
               final currentContext = MyApp.navigatorKey.currentContext;
               if (currentContext != null) {
                 showDialog(
@@ -264,7 +279,8 @@ class _SplashPageState extends State<SplashPage> {
         if (uri.queryParameters.containsKey('status') &&
             uri.queryParameters.containsKey('trx_id')) {
           SchedulerBinding.instance.addPostFrameCallback((_) {
-            if (mounted) Navigator.pushReplacementNamed(context, AppRouter.dashboard);
+            if (mounted)
+              Navigator.pushReplacementNamed(context, AppRouter.dashboard);
           });
           return;
         }

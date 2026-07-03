@@ -19,7 +19,8 @@ class AppStrings {
   static const String registerSuccess = 'Pendaftaran berhasil';
   static const String logoutSuccess = 'Logout berhasil';
   static const String emailVerificationSent = 'Email verifikasi sudah dikirim';
-  static const String emailVerificationResent = 'Email verifikasi sudah dikirim ulang';
+  static const String emailVerificationResent =
+      'Email verifikasi sudah dikirim ulang';
 
   // Hints
   static const String emailHint = 'contoh@gmail.com';
@@ -41,6 +42,4 @@ class AppStrings {
   static const String loading = 'Memuat...';
   static const String retry = 'Coba Lagi';
   static const String or = 'atau';
-
-
 }

@@ -51,43 +51,39 @@ class CustomButton extends StatelessWidget {
       height: 52,
       child: switch (variant) {
         ButtonVariant.primary => Container(
-            decoration: NeoTheme.neoDecoration(color: AppColors.neoYellow),
-            child: ElevatedButton(
-              onPressed: isLoading ? null : onPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.black,
-                shadowColor: Colors.transparent,
-                surfaceTintColor: Colors.transparent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: NeoTheme.radius,
-                ),
-              ),
-              child: child,
-            ),
-          ),
-        ButtonVariant.outlined => Container(
-            decoration: NeoTheme.neoDecoration(color: Colors.white),
-            child: ElevatedButton(
-              onPressed: isLoading ? null : onPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.black,
-                shadowColor: Colors.transparent,
-                surfaceTintColor: Colors.transparent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: NeoTheme.radius,
-                ),
-              ),
-              child: child,
-            ),
-          ),
-        ButtonVariant.text => TextButton(
+          decoration: NeoTheme.neoDecoration(color: AppColors.neoYellow),
+          child: ElevatedButton(
             onPressed: isLoading ? null : onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.black,
+              shadowColor: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: NeoTheme.radius),
+            ),
             child: child,
           ),
+        ),
+        ButtonVariant.outlined => Container(
+          decoration: NeoTheme.neoDecoration(color: Colors.white),
+          child: ElevatedButton(
+            onPressed: isLoading ? null : onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.black,
+              shadowColor: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: NeoTheme.radius),
+            ),
+            child: child,
+          ),
+        ),
+        ButtonVariant.text => TextButton(
+          onPressed: isLoading ? null : onPressed,
+          child: child,
+        ),
       },
     );
   }

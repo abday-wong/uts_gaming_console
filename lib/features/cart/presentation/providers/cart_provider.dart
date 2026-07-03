@@ -13,9 +13,14 @@ class CartProvider extends ChangeNotifier {
   }
 
   /// Tambah barang ke cart
-  void addItem(String productId, String productName, double price, {String? imageUrl}) {
+  void addItem(
+    String productId,
+    String productName,
+    double price, {
+    String? imageUrl,
+  }) {
     final index = _items.indexWhere((item) => item.productId == productId);
-    
+
     if (index == -1) {
       // Item tidak ada, tambah baru
       final newItem = CartItem(
@@ -33,7 +38,7 @@ class CartProvider extends ChangeNotifier {
       final updatedItem = item.copyWith(quantity: item.quantity + 1);
       _items[index] = updatedItem;
     }
-    
+
     notifyListeners();
   }
 

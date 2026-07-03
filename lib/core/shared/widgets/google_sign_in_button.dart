@@ -23,9 +23,7 @@ class GoogleSignInButton extends StatelessWidget {
             shadowColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: NeoTheme.radius,
-            ),
+            shape: RoundedRectangleBorder(borderRadius: NeoTheme.radius),
           ),
           child: isLoading
               ? const SizedBox(
@@ -39,7 +37,10 @@ class GoogleSignInButton extends StatelessWidget {
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset('assets/icons/google_logo.svg', height: 22),
+                    SvgPicture.asset(
+                      'assets/icons/google_logo.svg',
+                      height: 22,
+                    ),
                     const SizedBox(width: 12),
                     const Text(
                       'Lanjutkan dengan Google',

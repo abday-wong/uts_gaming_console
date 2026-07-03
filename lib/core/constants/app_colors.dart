@@ -5,7 +5,7 @@ class AppColors {
   static const Color primary = Color(0xFF2563EB);
   static const Color primaryLight = Color(0xFF60A5FA);
   static const Color primaryDark = Color(0xFF1D4ED8);
-  
+
   // Accent Red
   static const Color accent = Color(0xFFFF3B30);
   static const Color accentLight = Color(0xFFFF6B5B);
@@ -15,7 +15,7 @@ class AppColors {
   static const Color background = Color(0xFFFDF6E2);
   static const Color surface = Colors.white;
   static const Color error = Color(0xFFFF3B30);
-  
+
   // Success
   static const Color success = Color(0xFF16A34A);
 
@@ -37,7 +37,14 @@ class AppColors {
   static const Color neoPurple = Color(0xFFA78BFA);
 
   static Color cardColor(int index) {
-    const palette = [neoYellow, neoBlue, neoPink, neoGreen, neoOrange, neoPurple];
+    const palette = [
+      neoYellow,
+      neoBlue,
+      neoPink,
+      neoGreen,
+      neoOrange,
+      neoPurple,
+    ];
     return palette[index % palette.length];
   }
 }

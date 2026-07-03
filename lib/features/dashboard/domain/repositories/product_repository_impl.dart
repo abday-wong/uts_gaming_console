@@ -1,5 +1,3 @@
-
-
 import 'package:uts_gaming_console/core/constants/app_constants.dart';
 import 'package:uts_gaming_console/core/services/dio_client.dart';
 import 'package:uts_gaming_console/features/dashboard/data/models/product_model.dart';
@@ -21,7 +19,6 @@ class ProductRepositoryImpl extends ProductRepository {
     final List<dynamic> data = response.data['data'];
     return data.map((e) => ProductModel.fromJson(e)).toList();
   }
-
 
   @override
   Future<ProductModel> getProductById(int id) async {

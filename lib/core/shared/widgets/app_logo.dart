@@ -18,10 +18,7 @@ class AppLogo extends StatelessWidget {
         border: NeoTheme.border,
         boxShadow: const [NeoTheme.shadowSmall],
       ),
-      child: CustomPaint(
-        size: Size(size, size),
-        painter: ControllerPainter(),
-      ),
+      child: CustomPaint(size: Size(size, size), painter: ControllerPainter()),
     );
   }
 }
@@ -29,9 +26,8 @@ class AppLogo extends StatelessWidget {
 class ControllerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..style = PaintingStyle.fill;
-    
+    final paint = Paint()..style = PaintingStyle.fill;
+
     final borderPaint = Paint()
       ..style = PaintingStyle.stroke
       ..color = Colors.black

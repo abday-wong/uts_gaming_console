@@ -38,10 +38,13 @@ class SecureStorage {
     if (existing == null) return [];
     try {
       final decoded = jsonDecode(existing) as List<dynamic>;
-      return decoded.map((e) => Map<String, dynamic>.from(e as Map)).toList().reversed.toList();
+      return decoded
+          .map((e) => Map<String, dynamic>.from(e as Map))
+          .toList()
+          .reversed
+          .toList();
     } catch (_) {
       return [];
     }
   }
 }
-

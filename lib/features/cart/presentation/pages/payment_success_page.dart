@@ -122,7 +122,10 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                               Container(
                                 width: double.infinity,
                                 padding: const EdgeInsets.all(16),
-                                decoration: NeoTheme.neoDecoration(color: AppColors.neoYellow, small: true),
+                                decoration: NeoTheme.neoDecoration(
+                                  color: AppColors.neoYellow,
+                                  small: true,
+                                ),
                                 child: Column(
                                   children: [
                                     const Text(
@@ -135,7 +138,8 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                                     ),
                                     const SizedBox(height: 6),
                                     Text(
-                                      widget.trxId ?? '#${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
+                                      widget.trxId ??
+                                          '#${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w900,
@@ -148,17 +152,16 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                               ),
                               const SizedBox(height: 16),
                               // Divider
-                              Container(
-                                height: 2.5,
-                                color: Colors.black,
-                              ),
+                              Container(height: 2.5, color: Colors.black),
                               const SizedBox(height: 16),
                               // Order Date and Time
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const Text(
                                         'Tanggal Pembelian',
@@ -203,16 +206,15 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                                   ),
                                 ],
                               ),
-                              if (widget.amount != null || widget.recipientEmail != null) ...[
+                              if (widget.amount != null ||
+                                  widget.recipientEmail != null) ...[
                                 const SizedBox(height: 16),
-                                Container(
-                                  height: 2.5,
-                                  color: Colors.black,
-                                ),
+                                Container(height: 2.5, color: Colors.black),
                                 const SizedBox(height: 16),
                                 if (widget.recipientEmail != null) ...[
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text(
                                         'Penerima/Merchant',
@@ -237,11 +239,13 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                                       ),
                                     ],
                                   ),
-                                  if (widget.amount != null) const SizedBox(height: 12),
+                                  if (widget.amount != null)
+                                    const SizedBox(height: 12),
                                 ],
                                 if (widget.amount != null) ...[
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Text(
                                         'Total Pembayaran',
@@ -270,7 +274,10 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
                         // Info Message
                         Container(
                           padding: const EdgeInsets.all(14),
-                          decoration: NeoTheme.neoDecoration(color: AppColors.neoPink, small: true),
+                          decoration: NeoTheme.neoDecoration(
+                            color: AppColors.neoPink,
+                            small: true,
+                          ),
                           child: const Row(
                             children: [
                               Icon(

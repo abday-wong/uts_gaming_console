@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uts_gaming_console/core/constants/app_colors.dart';
@@ -47,7 +46,14 @@ class _DashboardPageState extends State<DashboardPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Katalog Produk', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.black)),
+                  const Text(
+                    'Katalog Produk',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                    ),
+                  ),
                   Text(
                     'Halo, ${auth.firebaseUser?.displayName ?? 'User'}!',
                     style: const TextStyle(
@@ -68,7 +74,9 @@ class _DashboardPageState extends State<DashboardPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const TransactionHistoryPage()),
+                MaterialPageRoute(
+                  builder: (context) => const TransactionHistoryPage(),
+                ),
               );
             },
           ),
@@ -98,16 +106,11 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(
-                color: AppColors.primary,
-              ),
+              CircularProgressIndicator(color: AppColors.primary),
               const SizedBox(height: 16),
               Text(
                 'Memuat produk...',
-                style: TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
               ),
             ],
           ),
@@ -117,11 +120,7 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.error_outline,
-                size: 64,
-                color: AppColors.accent,
-              ),
+              Icon(Icons.error_outline, size: 64, color: AppColors.accent),
               const SizedBox(height: 16),
               Text(
                 product.error ?? 'Terjadi kesalahan',
@@ -197,7 +196,10 @@ class _DashboardPageState extends State<DashboardPage> {
                             ),
                             const SizedBox(height: 4),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.neoYellow,
                                 border: NeoTheme.borderThin,
@@ -246,7 +248,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                   );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('${p.name} ditambahkan ke keranjang'),
+                                      content: Text(
+                                        '${p.name} ditambahkan ke keranjang',
+                                      ),
                                       backgroundColor: AppColors.success,
                                       duration: const Duration(seconds: 2),
                                     ),
@@ -259,7 +263,10 @@ class _DashboardPageState extends State<DashboardPage> {
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
-                                    side: const BorderSide(color: Colors.black, width: 2),
+                                    side: const BorderSide(
+                                      color: Colors.black,
+                                      width: 2,
+                                    ),
                                   ),
                                 ),
                                 child: const Text(
