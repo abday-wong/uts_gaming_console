@@ -93,6 +93,85 @@ class _CheckoutPageState extends State<CheckoutPage> {
           );
         }
       }
+    } else if (_selectedPaymentMethod == 'qris') {
+      setState(() {
+        _isProcessing = false;
+      });
+
+      final trxId = 'TX-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+      const merchantEmail = 'recipient@example.com';
+      const callbackUrl = 'ecommerce://callback';
+      final qrisPayload = 'emoney://pay?amount=$amount&recipient=$merchantEmail&trx_id=$trxId&callback=${Uri.encodeComponent(callbackUrl)}';
+      final qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${Uri.encodeComponent(qrisPayload)}';
+
+      if (mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: const BorderSide(color: Colors.black, width: 2.5),
+            ),
+            title: const Row(
+              children: [
+                Icon(Icons.qr_code_scanner, color: AppColors.primary),
+                SizedBox(width: 8),
+                Text(
+                  'Bayar QRIS',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                ),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Buka aplikasi Doran Pay di HP Anda, masuk ke menu "Scan QRIS" lalu scan kode di bawah:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12.5, color: Colors.black54),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black, width: 2.0),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Image.network(
+                    qrCodeUrl,
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Total Tagihan: Rp ${amount.toStringAsFixed(0)}',
+                  style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 15, color: Colors.black),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'ID Transaksi: $trxId',
+                  style: const TextStyle(fontSize: 11, color: Colors.grey),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                child: const Text('Batal'),
+              ),
+            ],
+          ),
+        );
+      }
     } else {
       setState(() {
         _isProcessing = true;
@@ -448,6 +527,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     style: TextStyle(fontSize: 11),
                                   ),
                                   secondary: const Icon(Icons.payment, color: AppColors.textSecondary),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      _selectedPaymentMethod = val!;
+                                    });
+                                  },
+                                ),
+                                RadioListTile<String>(
+                                  value: 'qris',
+                                  groupValue: _selectedPaymentMethod,
+                                  activeColor: AppColors.neoGreen,
+                                  contentPadding: EdgeInsets.zero,
+                                  title: const Text(
+                                    'QRIS (Scan & Pay)',
+                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: const Text(
+                                    'Tampilkan kode QR untuk discan',
+                                    style: TextStyle(fontSize: 11),
+                                  ),
+                                  secondary: const Icon(Icons.qr_code_scanner, color: AppColors.primary),
                                   onChanged: (val) {
                                     setState(() {
                                       _selectedPaymentMethod = val!;
